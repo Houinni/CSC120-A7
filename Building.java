@@ -18,7 +18,7 @@ public class Building {
 
     /* Overloaded constructor with name, address */
     public Building(String name, String address) {
-        this(name, address, 1); // Call full constructor with hard-coded # floors
+        this(name, address,1); // Call full constructor with hard-coded # floors
     }
 
     /* Full constructor */
