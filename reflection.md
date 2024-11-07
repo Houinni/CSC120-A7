@@ -1,4 +1,7 @@
 Use this file to record your reflection on this assignment.
 
 - Which methods did you decide to `overload`, and why?
+I decided to overload the method 'enter()' and 'exit()' because given the specific type of building, for example Cafe, we can keep track of more specialized data such as table number. I've also overloaded the constructor of House class, adding a boolean attribute hasElevator to determine whether a house has elevators. For library and cafe class, I just simply set a static attribute hasElevator for each, one is always true, the other is always false. 
 - What worked, what didn't, what advice would you give someone taking this course in the future?
+I put some effort to let goToFloor() method in House class to run as I want, because some house don't have elevators, user can only climb one floor at a time, therefore I have to keep goUp and goDown funtioning. This requires some modification to the original goToFloor() method.
+I've tried to do the interactive map part, so far I only implemented interaction with Library objects, but it's a bit repetitive, I wonder if there's an easier way. I've worked with the help of google in this part, it's fun to play around with it because the interaction gives me a similar vibe as interacting with web pages and apps.

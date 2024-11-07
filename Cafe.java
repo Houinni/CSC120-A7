@@ -4,6 +4,7 @@ public class Cafe extends Building {
     private int nSugarPackets; 
     private int nCreams; 
     private int nCups; 
+    private static boolean hasElevator=false;
 
 /**
  * Constructs a new Cafe object.
@@ -15,15 +16,15 @@ public class Cafe extends Building {
  * @param SugarPackets the initial number of sugar packets
  * @param Creams the initial number of creams
  * @param Cups the initial number of cups
+ * @param hasElevator indicate the presence of elevator
  */
-    public Cafe(String name, String address, int nFloors, boolean hasElevator,int CoffeeOunce,int SugarPackets,int Creams,int Cups) {
+    public Cafe(String name, String address, int nFloors,int CoffeeOunce,int SugarPackets,int Creams,int Cups) {
         super(name, address, nFloors);
         System.out.println("You have built a cafe: ☕");
         nCoffeeOunces = CoffeeOunce;
         nSugarPackets = SugarPackets;
         nCreams = Creams;
         nCups = Cups;
-
     }
     
 /**
@@ -109,42 +110,60 @@ public class Cafe extends Building {
  * @throws RuntimeException if the floor number is invalid.
  */
     public void goToFloor(int floorNum) {
+        if(!hasElevator){
+        throw new RuntimeException("Cannot go to that floor because this Library does not have an elevator.");
+        }
         if (this.activeFloor == -1) {
-        throw new RuntimeException("You are not inside this Cafe. Must call enter() before navigating between floors.");
+            throw new RuntimeException("You are not inside this Library. Must call enter() before navigating between floors.");
         }
         if (floorNum < 1 || floorNum > this.nFloors) {
-            throw new RuntimeException("Invalid floor number. Valid range for this Cafe is 1-" + this.nFloors +".");
+            throw new RuntimeException("Invalid floor number. Valid range for this Library is 1-" + this.nFloors +".");
         }
         System.out.println("You are now on floor #" + floorNum + " of " + this.name);
         this.activeFloor = floorNum;
-    } 
+  }
+        
 /**
  * Allows a user to enter the building.
  * Throws an exception if already inside.
+ * @param tableNumber
  * @return the current building instance.
  */
-    public Building enter() {
+    public Building enter(int tableNumber) {
         if (activeFloor != -1) {
             throw new RuntimeException("You are already inside this Cafe.");
         }
+        this.activeFloor = 1;
+        System.out.println("Take a sit in table # "+tableNumber+" your coffee will be ready within a blink!");
         return this; // Return a pointer to the current building
     }
 
 /**
  * Allows a user to exit the building.
  * Throws an exception if not inside.
+ * @param tableNumber 
  * @return null to indicate the user is outside.
  */
-    public Building exit() {
+    public Building exit(int tableNumber) {
         if (this.activeFloor == -1) {
             throw new RuntimeException("You are not inside this Cafe. Must call enter() before exit().");
         }
+        if (this.activeFloor > 1) {
+            throw new RuntimeException("You have fallen out a window from floor #" +this.activeFloor + "!");
+          }
+        this.activeFloor = -1;
+        System.out.println("table # "+tableNumber+" would miss u! promise me to come back?");
         return null; // We're outside now, so the building is null
     }
 
     public static void main(String[] args) {
-    Cafe CC=new Cafe(null, null, 1, false, 0, 0, 0, 0);
+    Cafe CC=new Cafe(null, null, 1, 0, 0, 0, 0);
     CC.showOptions();
+    CC.enter(2);
+    CC.goUp();
+
+    CC.exit(2);
+
 
     } 
 }

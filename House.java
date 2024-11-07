@@ -7,6 +7,7 @@ public class House extends Building {
   private ArrayList<String> residents;
   private boolean hasDiningRoom;
   private boolean hasElevator;
+
 /**
  * Constructs a new House object.
  *
@@ -54,7 +55,6 @@ public class House extends Building {
     }else{
      System.out.println(name+ " already lives here");
     }
-    
   }
 
 /**
@@ -106,7 +106,7 @@ public class House extends Building {
  * @throws RuntimeException if the floor number is invalid.
  */
   public void goToFloor(int floorNum) {
-    if(!hasElevator){
+    if(!hasElevator &&(this.activeFloor-floorNum>1 || floorNum-this.activeFloor>1 )){
         throw new RuntimeException("Cannot go to that floor because this House does not have an elevator.");
     }
     if (this.activeFloor == -1) {
@@ -121,27 +121,34 @@ public class House extends Building {
 
 /**
  * Allows the user to enter the building.
- * 
+ * @param roomNumber the room number that the user enters
  * @return the current building instance.
  * @throws RuntimeException if the user is already inside.
  */
-  public Building enter() {
+  public Building enter(int roomNumber) {
     if (activeFloor != -1) {
         throw new RuntimeException("You are already inside this House.");
     }
+    this.activeFloor = 1;
+    System.out.println("You've entered room # " + roomNumber + " of this House" );
     return this; 
   }
 
 /**
  * Allows the user to exit the building.
- * 
+ * @param roomNumber the room number that the user exit from
  * @return null to indicate the user is outside.
  * @throws RuntimeException if the user is not inside the building.
  */
-  public Building exit() {
+  public Building exit(int roomNumber) {
     if (this.activeFloor == -1) {
         throw new RuntimeException("You are not inside this House. Must call enter() before exit().");
     }
+    if (this.activeFloor > 1) {
+      throw new RuntimeException("You have fallen out a window from floor #" +this.activeFloor + "!");
+    }
+    this.activeFloor = -1;
+    System.out.println("You've left room # " + roomNumber + " of this House" );
     return null; 
   }
 
@@ -153,6 +160,12 @@ public class House extends Building {
     Morris.moveOut("Kira");
     Morris.moveIn("Kira");
     Morris.moveOut("Kira");
+    Morris.enter(100);
+    Morris.goUp();
+    Morris.goUp();
+    Morris.goDown();
+    Morris.goDown();
+    Morris.exit(100);
     System.out.println(Morris.isResident("Kira"));
     System.out.println("-----------------------");
     Morris.showOptions();

@@ -4,7 +4,7 @@ import java.util.Hashtable;
 
 public class Library extends Building {
     private Hashtable<String, Boolean> collection;
-    private boolean hasElevator;
+    private static boolean hasElevator=true;
 /**
  * Constructs a new Library object.
  *
@@ -13,10 +13,9 @@ public class Library extends Building {
  * @param nFloors the number of floors in the library
  * @param hasElevator whether the library has an elevator
  */
-    public Library(String name, String address, int nFloors, boolean hasElevator) {
+    public Library(String name, String address, int nFloors) {
       super(name, address, nFloors);
       collection=new Hashtable<>();
-      this.hasElevator=hasElevator;
       System.out.println("You have built a library: 📖");
     }
 
@@ -144,10 +143,12 @@ public class Library extends Building {
  * @return the current library instance.
  * @throws RuntimeException if the user is already inside.
  */
-    public Building enter() {
+    public Building enter(int section) {
       if (activeFloor != -1) {
           throw new RuntimeException("You are already inside this Library.");
       }
+      this.activeFloor=1;
+      System.out.println("you're now in section "+ section + " of the library, enjoy!");
       return this; 
     }
 
@@ -157,15 +158,19 @@ public class Library extends Building {
  * @return null to indicate the user is outside.
  * @throws RuntimeException if the user is not inside the library.
  */
-    public Building exit() {
+    public Building exit(int section) {
       if (this.activeFloor == -1) {
           throw new RuntimeException("You are not inside this Library. Must call enter() before exit().");
       }
+      if (this.activeFloor > 1) {
+        throw new RuntimeException("You have fallen out a window from floor #" +this.activeFloor + "!");
+      }
+      System.out.println("you're now left section "+ section + " of the library, bye!");
+      this.activeFloor=-1;
       return null; 
     }
     public static void main(String[] args) {
-      Library Neilson=new Library(null, null, 1, true);
-      Neilson.showOptions();
+      
     }
 
   
