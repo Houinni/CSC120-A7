@@ -1,17 +1,27 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * The CampusMap class represents a map of a campus, containing a list of
+ * buildings
+ * and allowing interactions such as adding, removing, and exploring buildings.
+ */
 public class CampusMap {
-
+    /**
+     * A list of buildings on the campus map.
+     */
     ArrayList<Building> buildings;
 
-    /* Default constructor, initializes empty ArrayList */
+    /**
+     * Default constructor, initializes an empty list of buildings.
+     */
     public CampusMap() {
         buildings = new ArrayList<Building>();
     }
 
     /**
      * Adds a Building to the map
+     * 
      * @param b the Building to add
      */
     public void addBuilding(Building b) {
@@ -22,6 +32,7 @@ public class CampusMap {
 
     /**
      * Removes a Building from the map
+     * 
      * @param b the Building to remove
      * @return the removed Building
      */
@@ -32,15 +43,26 @@ public class CampusMap {
         return b;
     }
 
+    /**
+     * Returns a string representation of the campus map, listing all buildings.
+     * 
+     * @return a string representation of the campus map
+     */
     public String toString() {
         String mapString = "DIRECTORY of BUILDINGS";
 
-        for (int i = 0; i < this.buildings.size(); i ++) {
-            mapString += "\n  " + (i+1) + ". "+ this.buildings.get(i).getName() + " (" + this.buildings.get(i).getAddress() + ")";
+        for (int i = 0; i < this.buildings.size(); i++) {
+            mapString += "\n  " + (i + 1) + ". " + this.buildings.get(i).getName() + " ("
+                    + this.buildings.get(i).getAddress() + ")";
         }
         return mapString;
     }
 
+    /**
+     * The main method to demonstrate and interact with the CampusMap.
+     * 
+     * @param args command-line arguments (not used)
+     */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         CampusMap myMap = new CampusMap();
@@ -57,11 +79,17 @@ public class CampusMap {
         System.out.println("\nWelcome to the Campus Map! Where would you like to go?");
         System.out.println(myMap);
         System.out.print("Enter your choice: ");
-            int choice = scanner.nextInt();
+        int choice = scanner.nextInt();
         myMap.exploreBuilding(choice, scanner);
-          
+
     }
 
+    /**
+     * Explores a selected building on the campus map based on user choice.
+     * 
+     * @param choice  the index of the building to explore
+     * @param scanner a Scanner object for user input
+     */
     public void exploreBuilding(int choice, Scanner scanner) {
         if (choice < 1 || choice > buildings.size()) {
             System.out.println("Invalid choice. Please try again.");
@@ -70,7 +98,7 @@ public class CampusMap {
 
         Building building = buildings.get(choice - 1);
         System.out.println("\nExploring " + building.getName() + "...");
-        
+
         if (building instanceof Library) {
             interactWithLibrary((Library) building, scanner);
         } else {
@@ -78,16 +106,23 @@ public class CampusMap {
         }
     }
 
+    /**
+     * Interacts with a Library building, providing various options for user input.
+     * 
+     * @param library the Library to interact with
+     * @param scanner a Scanner object for user input
+     */
     private void interactWithLibrary(Library library, Scanner scanner) {
         while (true) {
             System.out.println("\nYou're at " + library.getName());
             library.showOptions();
-    
+
             System.out.print("Choose an action or type 'back' to return to the campus map: ");
             String action = scanner.nextLine().trim();
-    
-            if (action.equalsIgnoreCase("back")) break;
-    
+
+            if (action.equalsIgnoreCase("back"))
+                break;
+
             switch (action) {
                 case "enter":
                     library.enter();
@@ -113,11 +148,13 @@ public class CampusMap {
                     break;
                 case "containsTitle":
                     System.out.print("Enter the book title to check: ");
-                    System.out.println(library.containsTitle(scanner.nextLine()) ? "Book is in the collection." : "Book is not in the collection.");
+                    System.out.println(library.containsTitle(scanner.nextLine()) ? "Book is in the collection."
+                            : "Book is not in the collection.");
                     break;
                 case "isAvailable":
                     System.out.print("Enter the book title to check availability: ");
-                    System.out.println(library.isAvailable(scanner.nextLine()) ? "Book is available." : "Book is checked out.");
+                    System.out.println(
+                            library.isAvailable(scanner.nextLine()) ? "Book is available." : "Book is checked out.");
                     break;
                 case "printCollection":
                     library.printCollection();

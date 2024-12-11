@@ -115,6 +115,7 @@ public class House extends Building {
     if (floorNum < 1 || floorNum > this.nFloors) {
         throw new RuntimeException("Invalid floor number. Valid range for this House is 1-" + this.nFloors +".");
     }
+    
     System.out.println("You are now on floor #" + floorNum + " of " + this.name);
     this.activeFloor = floorNum;
   } 
@@ -151,8 +152,33 @@ public class House extends Building {
     System.out.println("You've left room # " + roomNumber + " of this House" );
     return null; 
   }
-
   public static void main(String[] args) {
+    // Create a House without an elevator
+    House houseWithoutElevator = new House("No Elevator House", "123 Main St", 5, false, true);
+
+    // Enter the house
+    houseWithoutElevator.enter(101);
+
+    // Try to go to floor 3 from floor 1
+    try {
+        houseWithoutElevator.goToFloor(3);
+    } catch (RuntimeException e) {
+        System.out.println(e.getMessage());
+    }
+
+    // Move to floor 2 and then attempt floor 4
+    try {
+        houseWithoutElevator.goToFloor(2); // Should succeed
+        houseWithoutElevator.goToFloor(4); // Should throw an exception
+    } catch (RuntimeException e) {
+        System.out.println(e.getMessage());
+    }
+
+    // Exit the house
+    houseWithoutElevator.exit(101);
+}
+
+  /*public static void main(String[] args) {
     House Morris=new House("morris", "Northampton", 3, false,false);
     System.out.println(Morris.hasDiningRoom());
     Morris.moveIn("Kira");
@@ -169,6 +195,6 @@ public class House extends Building {
     System.out.println(Morris.isResident("Kira"));
     System.out.println("-----------------------");
     Morris.showOptions();
-  }
+  }*/
 
 }
